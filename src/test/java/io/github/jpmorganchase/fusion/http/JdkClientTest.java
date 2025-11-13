@@ -212,7 +212,9 @@ public class JdkClientTest {
         HttpResponse<String> response = httpClientWithProxy.get(API_URL, Collections.emptyMap());
 
         wiremockProxy.verify(getRequestedFor(urlEqualTo(BASE_PATH)));
-        validateGetRequest(response);
+        verify(getRequestedFor(urlEqualTo(BASE_PATH)));
+        assertThat(response.getStatusCode(), is(equalTo(200)));
+        assertThat(response.getBody(), is(equalTo(SAMPLE_RESPONSE_BODY)));
         assertThat(response.isError(), is(false));
     }
 
