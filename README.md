@@ -164,3 +164,5 @@ The Fusion SDK makes log calls to the SLF4J API. If you wish to see the logging 
 #### Exception Handling
 
 All exceptions thrown from calls to the Fusion object are runtime exceptions. These are documented in the Javadoc for the class itself. Runtime exceptions are used in place of checked exception in order to provide flexibility to users to handle exceptions within the most appropriate layer of your application, without requiring catching, wrapping and rethrowing.
+
+<!-- Verification test comment -->
