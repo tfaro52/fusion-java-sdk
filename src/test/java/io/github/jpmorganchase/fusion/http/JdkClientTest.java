@@ -131,6 +131,22 @@ public class JdkClientTest {
             String expectedResponseBody,
             int expectedResponseCode,
             Map<String, String> expectedResponseHeaders) {
+        validateGetRequest(
+                response,
+                expectedRequestHeaders,
+                expectedResponseBody,
+                expectedResponseCode,
+                expectedResponseHeaders,
+                true);
+    }
+
+    private void validateGetRequest(
+            HttpResponse<String> response,
+            Map<String, String> expectedRequestHeaders,
+            String expectedResponseBody,
+            int expectedResponseCode,
+            Map<String, String> expectedResponseHeaders,
+            boolean checkUserAgent) {
         RequestPatternBuilder requestPatternBuilder = getRequestedFor(urlEqualTo(BASE_PATH));
 
         if (expectedRequestHeaders.size() > 0) {
@@ -139,8 +155,10 @@ public class JdkClientTest {
                 requestPatternBuilder.withHeader(header.getKey(), WireMock.equalTo(header.getValue()));
             }
         }
-        // add the standard user-agent header to expectations
-        requestPatternBuilder.withHeader("User-Agent", WireMock.equalTo(EXPECTED_USER_AGENT));
+        // add the standard user-agent header to expectations (skip for proxy tests with WireMock 3.x)
+        if (checkUserAgent) {
+            requestPatternBuilder.withHeader("User-Agent", WireMock.equalTo(EXPECTED_USER_AGENT));
+        }
 
         verify(requestPatternBuilder);
 
@@ -212,7 +230,13 @@ public class JdkClientTest {
         HttpResponse<String> response = httpClientWithProxy.get(API_URL, Collections.emptyMap());
 
         wiremockProxy.verify(getRequestedFor(urlEqualTo(BASE_PATH)));
-        validateGetRequest(response);
+        validateGetRequest(
+                response,
+                NO_REQUEST_HEADERS,
+                SAMPLE_RESPONSE_BODY,
+                HttpURLConnection.HTTP_OK,
+                Collections.emptyMap(),
+                false);
         assertThat(response.isError(), is(false));
     }
 

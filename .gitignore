@@ -5,3 +5,7 @@
 **/client_credentials.json
 .vscode
 .DS_Store
+.classpath
+.factorypath
+.project
+.settings/
