@@ -56,7 +56,8 @@ public class JdkClientTest {
         BASE_URL = wiremock.getRuntimeInfo().getHttpBaseUrl();
         API_URL = String.format("%s%s", BASE_URL, BASE_PATH);
 
-        URL proxyUrl = new URL(wiremockProxy.getRuntimeInfo().getHttpBaseUrl());
+        URL proxyUrl =
+                URI.create(wiremockProxy.getRuntimeInfo().getHttpBaseUrl()).toURL();
         httpClientWithProxy = new JdkClient(
                 new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyUrl.getHost(), wiremockProxy.getPort())));
 

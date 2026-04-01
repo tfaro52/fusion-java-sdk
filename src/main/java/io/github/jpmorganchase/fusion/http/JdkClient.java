@@ -104,7 +104,7 @@ public class JdkClient implements Client {
 
     private URL parseUrl(String path) {
         try {
-            return new URL(path);
+            return URI.create(path).toURL();
         } catch (MalformedURLException e) {
             throw new ClientException(String.format("Malformed URL path received: %s", path), e);
         }

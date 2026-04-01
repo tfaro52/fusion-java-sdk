@@ -5,6 +5,7 @@ import io.github.jpmorganchase.fusion.api.operations.APIDownloadOperations;
 import io.github.jpmorganchase.fusion.api.operations.APIUploadOperations;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -51,7 +52,7 @@ public interface APIManager extends APIDownloadOperations, APIUploadOperations {
 
     static String encodeUrl(String rawUrl) {
         try {
-            URL url = new URL(rawUrl);
+            URL url = URI.create(rawUrl).toURL();
 
             String protocol = url.getProtocol();
             String host = url.getHost();
